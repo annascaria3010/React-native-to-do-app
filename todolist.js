@@ -6,10 +6,28 @@ import Dialog from './src/components/Dialog';
 
 export default function Todolist({navigation}) {
     const [todoList, setTodoList] = useState([]);
-
-  const handleDeleteTodo = (id) => {
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const [selectedTodo, setSelectedTodo] = useState(null);
+  
+    const handleDeleteTodo = (id) => {
     const updatedTodoList = todoList.filter((todo) => todo.id !== id);
     setTodoList(updatedTodoList);
+  };
+
+  const showDeleteDialog = (item) => {
+    setSelectedTodo(item);
+    setDialogVisible(true);
+  };
+
+  const handleConfirmDelete = () => {
+    handleDeleteTodo(selectedTodo.id);
+    setDialogVisible(false);
+    setSelectedTodo(null);
+  };
+
+  const handleCancelDelete = () => {
+    setDialogVisible(false);
+    setSelectedTodo(null);
   };
 
   const renderTodos = ({ item }) => {
@@ -36,10 +54,10 @@ export default function Todolist({navigation}) {
         />
         <Icons style={{ color:"#fff", fontSize:25}}
           name="trash"
-          onPress={() => handleDeleteTodo(item.id)}
+          onPress={() => showDeleteDialog(item)}
         />
        </View> 
-      </View>
+       </View>
     );
   };
 
@@ -55,11 +73,18 @@ export default function Todolist({navigation}) {
         <Text style={styles.addButtonText}>Add Task</Text>
       </TouchableOpacity>
 
-      <Dialog/>
-
       <FlatList data={todoList} renderItem={renderTodos} />
 
       {todoList.length <= 0 && <Fallback />}
+      
+      <Dialog
+        visible={dialogVisible}
+        title="Delete Task"
+        message="Are you sure you want to delete this task?"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
+
     </View>
   );
 };

@@ -14,10 +14,7 @@ export default function App() {
 
   return(
     <>
-    <View style={{ }}>
-      <StatusBar backgroundColor="black"/>
-      <Text>statusbar</Text>
-    </View>
+    
     
     <NavigationContainer>
     <Stack.Navigator >

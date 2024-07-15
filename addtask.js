@@ -15,29 +15,55 @@ export default function Addtask({route, navigation}){
 
     return(
         <View style={{ backgroundColor: "#fff",paddingBottom:500 }}>
+        <Text style={styles.label}>Title</Text>
         <TextInput
         placeholder="Add task"
         style={{
         borderBottomColor: 'black',
         borderBottomWidth: 0.5,
-        marginVertical: 12,
+        marginVertical: 5,
         marginHorizontal: 22, 
-        fontSize: 20,
+        fontSize: 16,
       }}
         value={todo}
         onChangeText={(userText) => setTodo(userText)}
     />
+        <Text style={styles.label}>Note</Text>
         <TextInput
         placeholder="Add Note"
         style={{
         borderBottomColor: 'black',
         borderBottomWidth: 0.5,
-        marginVertical: 12,
+        marginVertical: 5,
         marginHorizontal: 22, 
-        fontSize: 20,
+        fontSize: 16,
       }}
         value={note}
         onChangeText={(userText) => setNote(userText)}
+       />
+        <Text style={styles.label}>Date</Text>
+        <TextInput
+        placeholder="select date"
+        style={{
+        borderBottomColor: 'black',
+        borderBottomWidth: 0.5,
+        marginVertical: 5,
+        marginHorizontal: 22, 
+        fontSize: 16,
+      }}
+        
+       />
+        <Text style={styles.label}>Time</Text>
+        <TextInput
+        placeholder="set time"
+        style={{
+        borderBottomColor: 'black',
+        borderBottomWidth: 0.5,
+        marginVertical: 5,
+        marginHorizontal: 22, 
+        fontSize: 16,
+      }}
+        
        />
         
      <TouchableOpacity style={styles.button} onPress={handleAddTodo}>
@@ -48,6 +74,12 @@ export default function Addtask({route, navigation}){
 };
 
 const styles = StyleSheet.create({
+    label: {
+      color:"#000",
+      fontSize: 18,
+      fontWeight: "bold",
+      marginHorizontal: 22,
+    },
     input: {
       borderWidth: 2,
       borderColor: "#1e90ff",
