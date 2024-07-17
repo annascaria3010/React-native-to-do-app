@@ -1,21 +1,28 @@
 import React from "react";
-import { Text } from "react-native"; 
-import { View, StatusBar } from "react-native";
+import { StatusBar, useColorScheme, SafeAreaView } from "react-native";
 import { createStackNavigator } from '@react-navigation/stack';
-import Todolist from "./todolist";
 import { NavigationContainer } from '@react-navigation/native';
+import Todolist from "./todolist";
 import Addtask from './addtask';
 import Edittask from "./edittask";
 
 
 export default function App() {
-  
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: "white"
+  };
   const Stack = createStackNavigator();
 
   return(
     <>
-    
-    
+    <SafeAreaView >
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
+      />
+    </SafeAreaView>
+
     <NavigationContainer>
     <Stack.Navigator >
     
@@ -26,6 +33,6 @@ export default function App() {
     </NavigationContainer>
    
     </>
-  )
+  );
 
 } 

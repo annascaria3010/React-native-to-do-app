@@ -30,6 +30,16 @@ export default function Todolist({navigation}) {
     setSelectedTodo(null);
   };
 
+  const formatDate = (date) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString(undefined, options);
+  };
+
+  const formatTime = (time) => {
+    const options = { hour: '2-digit', minute: '2-digit' };
+    return time.toLocaleTimeString(undefined, options);
+  };
+
   const renderTodos = ({ item }) => {
     return (
       <View style={{ 
@@ -37,20 +47,23 @@ export default function Todolist({navigation}) {
         marginHorizontal: 16,
         borderRadius: 6,
         paddingHorizontal: 22,
-        paddingVertical: 16,
+        paddingVertical: 10,
         marginBottom: 12,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
       }}>
       <View style={{flexDirection:"column",paddingRight: 20, flex: 1}}>
-        <Text style={{ color:"#fff", fontSize:20, fontWeight: "800",}}>{item.title}</Text>
-        <Text style={{ color:"#fff", fontSize:16,}}>{item.note}</Text>
+        <Text style={{color:"#fff", fontSize:21, fontWeight: "800",}}>{item.title}</Text>
+        <Text style={{color:"#fff", fontSize:15}}>Notes: {item.note}</Text>
+        <Text style={{color:"#fff", fontSize:15}}>Due date: {formatDate(item.date)}</Text>
+        <Text style={{color:"#fff", fontSize:15}}>Due time: {formatTime(item.time)}</Text>
+
       </View>  
       <View style={{flexDirection:"row" }}>
         <Icons style={{ color:"#fff", fontSize:25,marginRight: 20 }}
           name="pencil"
-          onPress={() => navigation.navigate('Edit task', { todo: item, note: item, setTodoList })}
+          onPress={() => navigation.navigate('Edit task', { todo: item, note: item, date: item, time: item, setTodoList })}
         />
         <Icons style={{ color:"#fff", fontSize:25}}
           name="trash"
@@ -58,6 +71,7 @@ export default function Todolist({navigation}) {
         />
        </View> 
        </View>
+       
     );
   };
 
@@ -65,7 +79,7 @@ export default function Todolist({navigation}) {
 
 
   return (
-    <View style={{ backgroundColor: "#fff", paddingBottom:500, }}>
+    <View style={{ backgroundColor: "#fff", paddingBottom:150 }}>
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate('Add task', { setTodoList })}
