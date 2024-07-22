@@ -47,24 +47,23 @@ export default function Todolist({navigation}) {
         marginHorizontal: 16,
         borderRadius: 6,
         paddingHorizontal: 22,
-        paddingVertical: 10,
-        marginBottom: 12,
+        paddingVertical: 15,
+        marginBottom: 5,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        marginTop:15
       }}>
-      <View style={{flexDirection:"column",paddingRight: 20, flex: 1}}>
+      <TouchableOpacity
+       style={{flexDirection:"column",paddingRight: 20, flex: 1}}
+      onPress={() => navigation.navigate('Edit task', { todo: item, note: item, date: item, time: item, setTodoList })}
+      >
         <Text style={{color:"#fff", fontSize:21, fontWeight: "800",}}>{item.title}</Text>
         <Text style={{color:"#fff", fontSize:15}}>Notes: {item.note}</Text>
-        <Text style={{color:"#fff", fontSize:15}}>Due date: {formatDate(item.date)}</Text>
-        <Text style={{color:"#fff", fontSize:15}}>Due time: {formatTime(item.time)}</Text>
-
-      </View>  
+       </TouchableOpacity>
+       
       <View style={{flexDirection:"row" }}>
-        <Icons style={{ color:"#fff", fontSize:25,marginRight: 20 }}
-          name="pencil"
-          onPress={() => navigation.navigate('Edit task', { todo: item, note: item, date: item, time: item, setTodoList })}
-        />
+        
         <Icons style={{ color:"#fff", fontSize:25}}
           name="trash"
           onPress={() => showDeleteDialog(item)}
@@ -79,17 +78,19 @@ export default function Todolist({navigation}) {
 
 
   return (
-    <View style={{ backgroundColor: "#fff", paddingBottom:150 }}>
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('Add task', { setTodoList })}
-      >
-        <Text style={styles.addButtonText}>Add Task</Text>
-      </TouchableOpacity>
+    <View style={{ backgroundColor: "#fff", flex: 1, paddingTop:15, paddingBottom:180 }}>
+      
 
       <FlatList data={todoList} renderItem={renderTodos} />
 
       {todoList.length <= 0 && <Fallback />}
+
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate('New Item', { setTodoList })}
+      >
+       <Icons name="circle-with-plus" style={styles.addIcon} />
+      </TouchableOpacity>
       
       <Dialog
         visible={dialogVisible}
@@ -106,17 +107,27 @@ export default function Todolist({navigation}) {
 const styles = StyleSheet.create({
     
     addButton: {
-      backgroundColor: "#000",
-      marginHorizontal: 16,
-      borderRadius: 6,
-      paddingVertical: 12,
-      marginVertical: 34,
-      alignItems: "center",
-    },
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+  },
     addButtonText: {
       color: "white",
       fontWeight: "bold",
       fontSize: 20,
+      alignItems: 'flex-end'
+    }, 
+    addIcon: {
+      color: "#000",
+      fontSize: 50,
+      marginRight: 5,
+      
     },
+
   });
 

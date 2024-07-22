@@ -3,7 +3,7 @@ import React from 'react';
 
 const Fallback = () => {
   return (
-    <View style={{alignItems:"center", paddingLeft:35,paddingTop:35}}>
+    <View style={{alignItems:"center", paddingLeft:35,}}>
       <Image 
       source={require("../../assests/image.png")} 
       style={{height: 300, width:300,}}/>

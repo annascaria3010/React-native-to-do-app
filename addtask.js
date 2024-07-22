@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform } from 'react-native'
 import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icons from 'react-native-vector-icons/Entypo';
 
 export default function Addtask({route, navigation}){
     const [todo, setTodo] = useState('');
@@ -21,14 +21,16 @@ export default function Addtask({route, navigation}){
     };
     const onDateChange = (event, selectedDate) => {
       const currentDate = selectedDate || date;
-      setShowDatePicker(Platform.OS === 'ios');
+      setShowDatePicker(Platform.OS === 'android');
+      setShowDatePicker(false);
       setDate(currentDate);
     };
 
     const onTimeChange = (event, selectedTime) => {
       const currentTime = selectedTime || time;
-      setShowTimePicker(Platform.OS === 'ios');
+      setShowTimePicker(Platform.OS === 'android');
       setTime(currentTime);
+      setShowTimePicker(false);
     };
   
   
@@ -80,11 +82,14 @@ export default function Addtask({route, navigation}){
        />
        
         <View style={styles.container}>
-          <View style={styles.pickerContainer}>
+          <View>
             <Text style={styles.label}>Date</Text>
             <TouchableOpacity style={styles.dropdown} onPress={showDatepicker}>
+            <View style={styles.dropdownContent}>
               <Text style={styles.dropdownText}>Due Date: {formatDate(date)}</Text>
-              <Ionicons name="md-arrow-dropdown" size={24} color="black" />
+              <Icons name="chevron-down" size={24} color="black" />
+              
+            </View>  
             </TouchableOpacity>
             {showDatePicker && (
               <DateTimePicker
@@ -97,11 +102,14 @@ export default function Addtask({route, navigation}){
             )}
         </View>
 
-        <View style={styles.pickerContainer}>
+        <View>
           <Text style={styles.label}>Time</Text>
           <TouchableOpacity style={styles.dropdown} onPress={showTimepicker}>
+          <View style={styles.dropdownContent}>
             <Text style={styles.dropdownText}>Due Time: {formatTime(time)}</Text>
-            <Ionicons name="md-arrow-dropdown" size={24} color="black" />
+            <Icons name="chevron-down" size={24} color="black" />
+            
+          </View>  
           </TouchableOpacity> 
           {showTimePicker && (
             <DateTimePicker
@@ -128,18 +136,23 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
   },
+
   
   dropdown: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    marginLeft:10,
-    
+    marginHorizontal: 22,
+    marginVertical: 5,
+    paddingVertical: 10,
+    borderBottomColor: 'black',
+    borderBottomWidth: 0.5,
   },
+  dropdownContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
   dropdownText: {
-    marginRight: 10,
     fontSize: 16,
-    paddingLeft:5,
   },
 
     label: {
@@ -147,6 +160,7 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: "bold",
       marginHorizontal: 22,
+      paddingTop:15
     },
     input: {
       borderWidth: 2,
