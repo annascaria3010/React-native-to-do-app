@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform, Alert } from 'react-native'
 import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icons from 'react-native-vector-icons/Entypo';
@@ -7,14 +7,17 @@ export default function Addtask({route, navigation}){
     const [todo, setTodo] = useState('');
     const [note, setNote] = useState('');
     const {setTodoList } = route.params;
-    const [date, setDate] = useState(new Date());
-    const [time, setTime] = useState(new Date());
+    const [date, setDate] = useState(null);
+    const [time, setTime] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showTimePicker, setShowTimePicker] = useState(false);
 
 
     const handleAddTodo = () => {
-        if (todo === ''|| note==='' || date==='' || time==='') return;
+        if (todo === ''|| note===''){
+          Alert.alert('Error', 'Please fill both title and note fields.');
+          return;
+        }
         setTodoList((prevTodoList) => [...prevTodoList, { id: Date.now().toString(), title: todo, note:note, date:date, time: time }]);
         setTodo('');
         navigation.goBack();
@@ -43,11 +46,13 @@ export default function Addtask({route, navigation}){
     };
   
     const formatDate = (date) => {
+      if (!date) return 'Select date';
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return date.toLocaleDateString(undefined, options);
     };
   
     const formatTime = (time) => {
+      if (!time) return 'Select time';
       const options = { hour: '2-digit', minute: '2-digit' };
       return time.toLocaleTimeString(undefined, options);
     };
@@ -86,7 +91,7 @@ export default function Addtask({route, navigation}){
             <Text style={styles.label}>Date</Text>
             <TouchableOpacity style={styles.dropdown} onPress={showDatepicker}>
             <View style={styles.dropdownContent}>
-              <Text style={styles.dropdownText}>Due Date: {formatDate(date)}</Text>
+              <Text style={styles.dropdownText}>{formatDate(date)}</Text>
               <Icons name="chevron-down" size={24} color="black" />
               
             </View>  
@@ -94,7 +99,7 @@ export default function Addtask({route, navigation}){
             {showDatePicker && (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={date}
+                value={date || new Date()}
                 mode="date"
                 display="default"
                 onChange={onDateChange}
@@ -106,7 +111,7 @@ export default function Addtask({route, navigation}){
           <Text style={styles.label}>Time</Text>
           <TouchableOpacity style={styles.dropdown} onPress={showTimepicker}>
           <View style={styles.dropdownContent}>
-            <Text style={styles.dropdownText}>Due Time: {formatTime(time)}</Text>
+            <Text style={styles.dropdownText}>{formatTime(time)}</Text>
             <Icons name="chevron-down" size={24} color="black" />
             
           </View>  
@@ -114,7 +119,7 @@ export default function Addtask({route, navigation}){
           {showTimePicker && (
             <DateTimePicker
               testID="timeTimePicker"
-              value={time}
+              value={time || new Date()}
               mode="time"
               display="default"
               onChange={onTimeChange}
@@ -152,6 +157,7 @@ const styles = StyleSheet.create({
   },
 
   dropdownText: {
+    color:"black",
     fontSize: 16,
   },
 

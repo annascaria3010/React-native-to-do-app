@@ -30,7 +30,7 @@ export default function Dialog({ visible, title, message, onConfirm, onCancel })
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0)",
     justifyContent: "center",
     alignItems: "center",
   },

@@ -7,8 +7,8 @@ export default function Edittask({route, navigation}){
     const {todo, setTodoList} = route.params;
     const [updatedTodo, setUpdatedTodo] = useState(todo.title);
     const [updatedNote, setUpdatedNote] = useState(todo.note);
-    const [updatedDate, setUpdatedDate] = useState(new Date(todo.date));
-    const [updatedTime, setUpdatedTime] = useState(new Date(todo.time));
+    const [updatedDate, setUpdatedDate] = useState(todo.date ? new Date(todo.date) : null);
+    const [updatedTime, setUpdatedTime] = useState(todo.time ? new Date(todo.time) : null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showTimePicker, setShowTimePicker] = useState(false);
 
@@ -40,11 +40,13 @@ export default function Edittask({route, navigation}){
       setShowTimePicker(true);
     };
     const formatDate = (date) => {
+      if (!date) return 'Select date';
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return date.toLocaleDateString(undefined, options);
     };
 
     const formatTime = (time) => {
+      if (!time) return 'Select time';
       const options = { hour: '2-digit', minute: '2-digit' };
       return time.toLocaleTimeString(undefined, options);
     };
@@ -71,7 +73,7 @@ export default function Edittask({route, navigation}){
         <Text style={styles.label}>Date</Text>
         <TouchableOpacity style={styles.dropdown} onPress={showDatepicker}>
         <View style={styles.dropdownContent}>
-          <Text style={styles.dropdownText}>Due Date: {formatDate(updatedDate)}</Text>
+          <Text style={styles.dropdownText}>{formatDate(updatedDate)}</Text>
           <Icons name="chevron-down" size={24} color="black" />
           
           </View>
@@ -79,7 +81,7 @@ export default function Edittask({route, navigation}){
         {showDatePicker && (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={updatedDate}
+                value={updatedDate || new Date()}
                 mode="date"
                 display="default"
                 onChange={onDateChange}
@@ -89,7 +91,7 @@ export default function Edittask({route, navigation}){
         <Text style={styles.label}>Time</Text>
         <TouchableOpacity style={styles.dropdown} onPress={showTimepicker}>
         <View style={styles.dropdownContent}> 
-          <Text style={styles.dropdownText}>Due Time: {formatTime(updatedTime)}</Text>
+          <Text style={styles.dropdownText}> {formatTime(updatedTime)}</Text>
           <Icons name="chevron-down" size={24} color="black" />
           
           </View>
@@ -97,7 +99,7 @@ export default function Edittask({route, navigation}){
         {showTimePicker && (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={updatedTime}
+                value={updatedTime || new Date()}
                 mode="time"
                 display="default"
                 onChange={onTimeChange}
@@ -138,16 +140,17 @@ const styles = StyleSheet.create({
   },
 
   dropdownText: {
+    color:"black",
     fontSize: 16,
   },
     input: {
-      borderBottomColor: 'black',
+      borderBottomColor: "black",
       borderBottomWidth: 0.5,
       marginHorizontal: 16,
       borderRadius: 6,
       paddingVertical: 8,
       paddingHorizontal: 16,
-      fontSize: 20
+      fontSize: 16
     },
     button: {
       backgroundColor: "#000",

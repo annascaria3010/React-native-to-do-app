@@ -32,12 +32,12 @@ export default function Todolist({navigation}) {
 
   const formatDate = (date) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString(undefined, options);
+    return date ? new Date(date).toLocaleDateString(undefined, options) : '';
   };
 
   const formatTime = (time) => {
     const options = { hour: '2-digit', minute: '2-digit' };
-    return time.toLocaleTimeString(undefined, options);
+    return time ? new Date(time).toLocaleTimeString(undefined, options) :'';
   };
 
   const renderTodos = ({ item }) => {
@@ -59,7 +59,8 @@ export default function Todolist({navigation}) {
       onPress={() => navigation.navigate('Edit task', { todo: item, note: item, date: item, time: item, setTodoList })}
       >
         <Text style={{color:"#fff", fontSize:21, fontWeight: "800",}}>{item.title}</Text>
-        <Text style={{color:"#fff", fontSize:15}}>Notes: {item.note}</Text>
+        <Text style={{color:"#fff", fontSize:15}}>{item.note}</Text>
+           
        </TouchableOpacity>
        
       <View style={{flexDirection:"row" }}>
